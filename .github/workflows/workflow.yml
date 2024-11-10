@@ -14,27 +14,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
       - name: Restore dependencies
-      run: dotnet restore
+        run: dotnet restore
       - name: Build
-      run: dotnet publish -c Release
-  
+        run: dotnet publish -c Release
+    
   lint:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
       - name: Install FSharpLint
-      run: dotnet tool install -g FSharpLint
+        run: dotnet tool install -g FSharpLint
       - name: Run FSharpLint
-      run: fsharp-lint --project .
+        run: fsharp-lint --project .
   
   format:
     runs-on: ubuntu-latest
@@ -42,28 +42,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
+        uses: actions/setup-dotnet@v3
+        with:
         dotnet-version: 6.0.x
       - name: Install Fantomas
-      run: dotnet tool install -g Fantomas
+        run: dotnet tool install -g Fantomas
       - name: Run Fantomas
-      run: fantomas --project .
-      - name: Commit changes
-      run: git config --global user.email "action@github.com"
-      run: git config --global user.name "GitHub Action"
-      run: git add .
-      run: git commit -m "Format code with Fantomas"
-      run: git push
-  
+        run: fantomas --project .
+      
   test:
     runs-on: ubuntu-latest
     needs: format
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
       - name: Run Tests
-      run: dotnet test
+        run: dotnet test
