@@ -3,10 +3,10 @@ name: F# CI Pipeline
 on:
   push:
     branches:
-      - main
+      - main  # Проверьте, что пушите в ветку "main"
   pull_request:
     branches:
-      - main
+      - main  # Убедитесь, что PR сливается в ветку "main"
 
 jobs:
   build:
@@ -19,32 +19,25 @@ jobs:
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'  # или версия вашего .NET SDK
+          dotnet-version: '7.0.x'  # Замените на актуальную версию .NET SDK
 
       - name: Install .NET dependencies
-        run: |
-          dotnet restore
+        run: dotnet restore
 
       - name: Install Fantomas (Code Formatter)
-        run: |
-          dotnet tool install -g Fantomas.Tool
+        run: dotnet tool install -g Fantomas.Tool
 
       - name: Format code with Fantomas
-        run: |
-          fantomas --check **/*.fs  # Проверка форматирования кода
+        run: fantomas --check src/**/*.fs  # Проверка форматирования кода
 
       - name: Install FSharpLint (Code Linter)
-        run: |
-          dotnet tool install -g FSharpLint
+        run: dotnet tool install -g FSharpLint
 
       - name: Run FSharpLint
-        run: |
-          fsharplint lint **/*.fs  # Запуск линтера на всех .fs файлах
+        run: fsharplint lint src/**/*.fs  # Линтинг кода
 
       - name: Build the project
-        run: |
-          dotnet build MyFSharpProject.sln --configuration Release
+        run: dotnet build MyFSharpProject.sln --configuration Release
 
       - name: Run tests
-        run: |
-          dotnet test MyFSharpProject.sln --configuration Release
+        run: dotnet test MyFSharpProject.sln --configuration Release
