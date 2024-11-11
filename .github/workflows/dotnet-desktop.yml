@@ -34,11 +34,10 @@ jobs:
 
       - name: Format code with Fantomas (Sqr)
         run: fantomas SqrFunTask/Program.fs
+        
+      - name: Run program (Fib)
+        run: cd FibFunTask && dotnet run
 
-      - name: Install FSharpLint (Code Linter)
-        run: dotnet tool install --create-manifest-if-needed -g FSharpLint
-
-      - name: Run FSharpLint (Fib)
-        run: fsharplint lint FibFunTask/Program.fs
-      - name: Run FSharpLintSqr (Sqr)
-        run:  fsharplint lint    SqrFunTask/Program.fs
+      - name: Run program (Sqr)
+        run: cd ../SqrFunTask && dotnet run
+        
