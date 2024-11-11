@@ -39,5 +39,5 @@ jobs:
         run: cd FibFunTask && dotnet run
 
       - name: Run program (Sqr)
-        run: cd ../SqrFunTask && dotnet run
+        run: cd SqrFunTask && dotnet run
         
