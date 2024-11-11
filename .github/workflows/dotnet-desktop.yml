@@ -29,12 +29,16 @@ jobs:
       - name: Install Fantomas (Code Formatter)
         run: dotnet tool install --create-manifest-if-needed -g Fantomas
 
-      - name: Format code with Fantomas
-        run: fantomas **/Program.fs
-        
+      - name: Format code with Fantomas (Fib)
+        run: fantomas FibFunTask/Program.fs
+
+      - name: Format code with Fantomas (Sqr)
+        run: fantomas SqrFunTask/Program.fs
+
       - name: Install FSharpLint (Code Linter)
         run: dotnet tool install --create-manifest-if-needed -g FSharpLint
 
-      - name: Run FSharpLint
-        run: fsharplint lint **/Program.fs
-         
+      - name: Run FSharpLint (Fib)
+        run: fsharplint lint FibFunTask/Program.fs
+      - name: Run FSharpLintSqr (Sqr)
+        run:  fsharplint lint    SqrFunTask/Program.fs
