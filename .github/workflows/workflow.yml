@@ -1,4 +1,4 @@
-name: CI
+name: F# CI Pipeline
 
 on:
   push:
@@ -11,53 +11,40 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet publish -c Release
-    
-  lint:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-      - name: Install FSharpLint
-        run: dotnet tool install -g FSharpLint
+          dotnet-version: '7.0.x'  # или версия вашего .NET SDK
+
+      - name: Install .NET dependencies
+        run: |
+          dotnet restore
+
+      - name: Install Fantomas (Code Formatter)
+        run: |
+          dotnet tool install -g Fantomas.Tool
+
+      - name: Format code with Fantomas
+        run: |
+          fantomas --check **/*.fs  # Проверка форматирования кода
+
+      - name: Install FSharpLint (Code Linter)
+        run: |
+          dotnet tool install -g FSharpLint
+
       - name: Run FSharpLint
-        run: fsharp-lint --project .
-  
-  format:
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-        dotnet-version: 6.0.x
-      - name: Install Fantomas
-        run: dotnet tool install -g Fantomas
-      - name: Run Fantomas
-        run: fantomas --project .
-      
-  test:
-    runs-on: ubuntu-latest
-    needs: format
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-      - name: Run Tests
-        run: dotnet test
+        run: |
+          fsharplint lint **/*.fs  # Запуск линтера на всех .fs файлах
+
+      - name: Build the project
+        run: |
+          dotnet build MyFSharpProject.sln --configuration Release
+
+      - name: Run tests
+        run: |
+          dotnet test MyFSharpProject.sln --configuration Release
