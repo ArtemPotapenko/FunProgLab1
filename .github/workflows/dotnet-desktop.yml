@@ -26,9 +26,6 @@ jobs:
         with:
           dotnet-version: '7.0.x'  # Замените на вашу версию SDK
 
-      - name: Install .NET dependencies
-        run: dotnet restore
-
       - name: Install Fantomas (Code Formatter)
         run: dotnet tool install -g Fantomas
 
