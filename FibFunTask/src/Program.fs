@@ -1,4 +1,5 @@
 ﻿module Fib
+
 let printInt = printf "%d \n"
 
 let fibList n =
@@ -16,19 +17,17 @@ let recursionSolution n =
     let a = 0I
 
     let rec help a b n =
-        if a + b > pown 10I (n - 1) then
-            2
-        else
-            1 + (help b (a + b) n)
+        match a + b with
+        | x when x > pown 10I (n - 1) -> 2
+        | _ -> 1 + (help b (a + b) n)
 
     help a b n
 
 let tailRecursionSolution n =
     let rec help a b count n =
-        if a + b > pown 10I (n - 1) then
-            count
-        else
-            (help b (a + b) (count + 1) n)
+        match a + b with
+        | x when x > pown 10I (n - 1) -> count
+        | _ -> (help b (a + b) (count + 1) n)
 
     help 0I 1I 2 n
 
@@ -78,4 +77,3 @@ let infFibSolution n =
     |> Seq.length
 
 infFibSolution 1000 |> printInt
-
