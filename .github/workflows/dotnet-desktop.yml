@@ -36,7 +36,7 @@ jobs:
         run: fantomas SqrFunTask/src/Program.fs
         
       - name: Run program (Fib)
-        run: cd FibFunTask && dotnet test
+        run: cd FibFunTask && dotnet run
 
       - name: Run program (Sqr)
-        run: cd SqrFunTask && dotnet test
+        run: cd SqrFunTask && dotnet run
