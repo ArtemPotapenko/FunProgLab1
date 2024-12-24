@@ -1,29 +1,19 @@
 ﻿module Fib
-
 let printInt = printf "%d \n"
-
 
 let fibList n =
 
-    let mutable a = 0I
-    let mutable b = 1I
-
-    let nextFib x y =
-        b <- x + y
-        a <- y
-        b
-
-    [ 0 .. 10 * n ]
-    |> List.map (fun x ->
-        match x with
-        | 0 -> 0I
+    let rec nextFib n =
+        match n with
         | 1 -> 1I
-        | _ -> nextFib a b)
+        | 0 -> 0I
+        | _ -> nextFib (n - 1) + nextFib (n - 2)
 
+    [ 0 .. 10 * n ] |> List.map nextFib
 
 let recursionSolution n =
-    let mutable a = 0I
-    let mutable b = 1I
+    let b = 1I
+    let a = 0I
 
     let rec help a b n =
         if a + b > pown 10I (n - 1) then
@@ -32,8 +22,6 @@ let recursionSolution n =
             1 + (help b (a + b) n)
 
     help a b n
-
-recursionSolution 100 |> printInt
 
 let tailRecursionSolution n =
     let rec help a b count n =
@@ -62,42 +50,32 @@ let mapFibSolution n =
 mapFibSolution 1000 |> printInt
 
 let cycleFibSolution n =
-    let mutable a = 0I
-    let mutable b = 1I
 
-    let nextFib x y =
-        b <- x + y
-        a <- y
-        b
+    let rec nextFib n =
+        match n with
+        | 1 -> 1I
+        | 0 -> 0I
+        | _ -> nextFib (n - 1) + nextFib (n - 2)
 
-    seq {
-        for i in 0 .. 10 * n ->
-            match i with
-            | 0 -> 0I
-            | 1 -> 1I
-            | _ -> nextFib a b
-    }
+    seq { for i in 0 .. 10 * n -> nextFib i }
     |> Seq.filter (fun x -> x < pown 10I (n - 1))
     |> Seq.length
 
 cycleFibSolution 1000 |> printInt
 
 let infFibSolution n =
-    let mutable a = 0I
-    let mutable b = 1I
 
-    let nextFib x y =
-        b <- x + y
-        a <- y
-        b
+    let rec nextFib n =
+        match n with
+        | 1 -> 1I
+        | 0 -> 0I
+        | _ -> nextFib (n - 1) + nextFib (n - 2)
 
     Seq.initInfinite ((+) 0)
-    |> Seq.map (fun x ->
-        if x = 0 then 0I
-        else if x = 1 then 1I
-        else nextFib a b)
+    |> Seq.map nextFib
     |> Seq.take (10 * n)
     |> Seq.filter (fun x -> x < pown 10I (n - 1))
     |> Seq.length
 
 infFibSolution 1000 |> printInt
+
