@@ -30,10 +30,10 @@ jobs:
         run: dotnet tool install --create-manifest-if-needed -g Fantomas
 
       - name: Format code with Fantomas (Fib)
-        run: fantomas FibFunTask/Program.fs
+        run: fantomas FibFunTask/src/Program.fs
 
       - name: Format code with Fantomas (Sqr)
-        run: fantomas SqrFunTask/Program.fs
+        run: fantomas SqrFunTask/src/Program.fs
         
       - name: Run program (Fib)
         run: cd FibFunTask && dotnet test
